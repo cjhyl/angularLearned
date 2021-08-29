@@ -1,0 +1,4 @@
+创建指令的命令：ng g d 路径名/文件名
+//g:generate d:directive
+
+ng g d directives/hover

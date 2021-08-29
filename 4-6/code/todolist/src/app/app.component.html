@@ -1,0 +1,89 @@
+<style>
+  .todolistBg{
+    width: 315px;
+    min-height:150px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #f5f6f6;
+  }
+  .todolistBg *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  button{
+    width: 72px;
+    height:27px;
+    color: red;
+  }
+  .todolistBg>.title{
+    width:100%;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-size:16px;
+    color:#000000;
+    background-color: #cccccc;
+    float:left;
+  }
+  .todolistBg>.inputBg{
+    width:100%;
+    height: 72px;
+    padding: 20px 10px 0;
+    float: left;
+  }
+  .todolistBg>.inputBg .inputBox{
+    width: 204px;
+    height:25px;
+    border: 1px #c0c0c0 solid;
+    border-radius: 2px;
+    background-color: #ffffff;
+    margin-top: 1px;
+    float:left;
+  }
+  .todolistBg>.inputBg button {
+    float: right;
+  }
+  .todolistBg>.listBg{
+    width:100%;
+    border: 1px #808080 solid;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 27px 27px 18px 30px; 
+    float:left;
+  }
+  .todolistBg>.listBg>.li{
+    width: 100%;
+    min-height: 36px;
+    float:left;
+  }
+  .todolistBg>.listBg button{
+    float:right;
+  }
+  .todolistBg>.listBg .name{
+    padding-left:3px;
+  }
+  
+  
+</style>
+<div class="todolistBg">
+  <div class="title">Angular Todolist</div>
+  <div class="inputBg">
+    <input type="text" class="inputBox" placeholder="add todo" [(ngModel)]="todoTxt" (keyup.enter)="addTodo()" />
+    <button (click)="addTodo()">添加</button>
+  </div>
+  <div class="radioBg" [hidden]="todoList.length<1">
+    <input id="f1" type="radio" name="filter" [(ngModel)]="filter" value="all"><label for="f1">all</label>
+    <input id="f2" type="radio" name="filter" [(ngModel)]="filter" value="todo"><label for="f2">todo</label>
+    <input id="f3" type="radio" name="filter" [(ngModel)]="filter" value="completed"><label for="f3">completed</label>
+  </div>
+  <div class="listBg" [hidden]="todoList.length<1">
+    <div class="li" *ngFor="let item of filterTodoList;let i = index;">
+      <input type="checkbox" [(ngModel)]="item.completed" />
+      <span class="name">{{item.label}}</span>
+      <button (click)="deleteTodo(i)">删除</button>
+    </div>
+  </div>
+</div>

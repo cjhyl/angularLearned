@@ -1,0 +1,16 @@
+初始项目src/styles.css是默认的全局样式文件
+/* 第一种方式 在 styles.css 文件中 */
+@import "~bootstrap/dist/css/bootstrap.css";
+/* ~ 相对node_modules文件夹 */
+
+<!-- 第二种方式 在 index.html 文件中  -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+默认的src/styles.css就是在angular.json中配置的
+// 第三种方式 在 angular.json 文件中
+"styles": [
+  "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "src/styles.css"
+]
+
+注：在“scripts”:[]中引入的js文件也是全局js文件

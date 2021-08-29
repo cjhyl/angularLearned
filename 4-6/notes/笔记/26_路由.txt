@@ -1,0 +1,70 @@
+路由传参分为查询参数和动态参数
+命名插座：将子级路由组件显示到不同的路由插座中。可动态显示所有或部分子级路由
+使用ng g m xxx创建模块，这样会拥有一个同名文件夹，使用--flat=true可以取消文件夹，使其与app模块平级。
+
+路由懒加载的意义：不使用懒加载的话，初始一次性加载的包可能过大，会导致首次加载过慢。
+路由懒加载的定义：用户访问到某个模块时，再加载该模块。
+路由懒加载是以模块为单位的。
+大略示例流程：
+1. 创建用户模块 ng g m user --routing=true 一并创建该模块的路由模块
+2. 创建登录页面组件 ng g c user/pages/login //Angular脚手架会自动识别其属于user模块
+3. 创建注册页面组件 ng g c user/pages/register
+4. 配置用户模块的路由规则
+5. 将用户路由模块关联到主路由模块
+6. 导航组件中添加访问链接
+
+
+Angular路由守卫：
+1. CanActivate
+检查用户是否可以访问某一个路由。
+CanActivate 为接口，路由守卫类要实现该接口，该接口规定类中需要有 canActivate 方法，方法决定是否允许访问目标路由。
+canActivate通过返回true或false确定可以可以访问路由。
+canActivate方法可以异步，通过返回Promise，在Promise中返回true或false。
+路由可以应用多个守卫，所有守卫方法都允许，路由才被允许访问，有一个守卫方法不允许，则路由不允许被访问。
+创建路由守卫：ng g guard guards/auth
+2. CanActivateChild
+检查用户是否方可访问某个子路由。
+创建路由守卫：ng g guard guards/admin 注意：选择 CanActivateChild，需要将箭头移动到这个选项并且敲击空格确认选择。
+3. CanDeactivate
+检查用户是否可以退出路由。比如用户在表单中输入的内容没有保存，用户又要离开路由，此时可以调用该守卫提示用户。
+首先：需要在路由组件中提供一个方法，告诉路由守卫能不能离开。
+其次：路由守卫需守卫多个路由，所以路由组件提供的方法需要统一。
+4. Resolve
+允许在进入路由之前先获取数据，待数据获取完成之后再进入路由。
+需使用ng g resolver <name>创建
+import { Injectable } from "@angular/core"
+import { Resolve } from "@angular/router"
+
+type returnType = Promise<{ name: string }>
+
+// 它也是个服务类
+@Injectable({
+  providedIn: "root"
+})
+export class ResolveGuard implements Resolve<returnType> {
+  // 需实现resolve接口函数，返回指定类型的数据
+  resolve(): returnType {
+    return new Promise(function (resolve) {
+      setTimeout(() => {
+        resolve({ name: "张三" })
+      }, 2000)
+    })
+  }
+}
+
+规则配置示例：
+{
+   path: "",
+   component: HomeComponent,
+   resolve: {
+     user: ResolveGuard
+   }
+}
+
+在页面中获取该数据：
+export class HomeComponent {
+  constructor(private route: ActivatedRoute) {}
+  ngOnInit(): void {
+    console.log(this.route.snapshot.data.user)
+  }
+}

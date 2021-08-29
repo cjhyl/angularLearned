@@ -1,0 +1,2 @@
+metaReducer 是 Action -> Reducer 之间的钩子，允许开发者对 Action 进行预处理 (在普通 Reducer 函数调用之前调用)。
+就是action->reducer之间的中间件。

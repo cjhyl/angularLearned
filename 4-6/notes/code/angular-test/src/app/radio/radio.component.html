@@ -1,0 +1,5 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+  <input type="radio" formControlName="gender" value="male" /> Male
+  <input type="radio" formControlName="gender" value="female" /> Female
+  <button type="submit">提交</button>
+</form>

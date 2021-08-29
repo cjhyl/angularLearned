@@ -1,0 +1,5 @@
+<button (click)="increment()">+1</button>
+<!-- 1. 在组件模板中新增一个用于异步数值增加的按钮，按钮被点击后执行 increment_async 方法-->
+<button (click)="async_increment()">延迟相加</button>
+<span>{{ count | async }}</span>
+<button (click)="decrement()">-1</button>

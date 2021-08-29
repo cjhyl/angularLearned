@@ -1,0 +1,26 @@
+RxJS 是一个用于处理异步编程的 JavaScript 库，目标是使编写异步和基于回调的代码更容易。
+Angular深度集成了 RxJS，可用于服务、表单、事件、全局状态管理、异步请求 ...
+
+核心概念：
+1. 可观察对象 ( Observable ) ：类比 Promise 对象，内部可以用于执行异步代码，通过调用内部提供的方法将异步代码执行的结果传递到可观察对象外部。
+2. 观察者 ( Observer )：类比 then 方法中的回调函数，用于接收可观察对象中传递出来数据。
+3. 订阅 ( subscribe )：类比 then 方法，通过订阅将可观察对象和观察者连接起来，当可观察对象发出数据时，订阅者可以接收到数据。
+
+快速入门示例代码：
+import { Observable } from "rxjs"
+
+const observable = new Observable(function (observer) {
+  setTimeout(function () {
+    observer.next({
+      name: "张三"
+    })
+  }, 2000)
+})
+
+const observer = {
+  next: function (value) {
+    console.log(value)
+  }
+}
+
+observable.subscribe(observer)

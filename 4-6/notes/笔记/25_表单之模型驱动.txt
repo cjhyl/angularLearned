@@ -1,0 +1,98 @@
+模型驱动需了解的类：
+1. FormControl类，表单项目的实例对象，可以验证表单字段中的值，值是否被修改过等。
+2. FormGroup类，整个表单的实例对象，它可以对表单进行整体验证，
+3. FormArray类，用于复杂表单，可以动态添加表单项或表单组
+
+快速上手：
+1. 引入 ReactiveFormsModule
+import { ReactiveFormsModule } from "@angular/forms"
+
+@NgModule({
+  imports: [ReactiveFormsModule]
+})
+export class AppModule {}
+
+2.在组件类中创建 FormGroup 表单控制对象
+import { FormControl, FormGroup } from "@angular/forms"
+
+export class AppComponent {
+  contactForm: FormGroup = new FormGroup({
+    name: new FormControl(),
+    phone: new FormControl()
+  })
+}
+
+3. 关联组件模板中的表单
+<form [formGroup]="contactForm" (submit)="onSubmit()">
+  <input type="text" formControlName="name" />
+  <input type="text" formControlName="phone" />
+  <button>提交</button>
+</form>
+
+4. 获取表单值
+export class AppComponent {
+  onSubmit() {
+    console.log(this.contactForm.value)
+  }
+}
+
+5. 设置表单默认值
+contactForm: FormGroup = new FormGroup({
+  name: new FormControl("默认值"),
+  phone: new FormControl(15888888888)
+})
+
+6. 表单分组
+
+
+
+FormArray：
+可动态添加、删除表单。
+需求示例：在页面中默认显示一组联系方式，通过点击按钮可以添加更多联系方式组。
+
+
+
+表单验证：
+内置验证规则Validators：
+required
+minLength
+maxLength
+更多内置规则查看文档
+
+自定义表单验证规则的规范：
+1. 自定义验证器的类型是 TypeScript 类
+2. 类中包含具体的验证方法，验证方法必须为静态方法
+3. 验证方法有一个参数 control，类型为 AbstractControl。其实就是 FormControl 类的实例对象的类型
+4. 如果验证成功，返回 null
+5. 如果验证失败，返回对象，对象中的属性即为验证标识，值为 true，标识该项验证失败
+6. 验证方法的返回值为 ValidationErrors | null
+
+
+
+FromBuilder：创建模型驱动表单的快捷方式
+使用方式：在组件类初始化时传入private fb: FormBuilder参数以注入FormBuilder实例对象
+1. this.fb.control：表单项
+2. this.fb.group：表单组，表单至少是一个 FormGroup
+3. this.fb.array：用于复杂表单，可以动态添加表单项或表单组，在表单验证时，FormArray 中有一项没通过，整体没通过。
+
+示例：
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+
+export class AppComponent {
+  contactForm: FormGroup
+  constructor(private fb: FormBuilder) {
+    this.contactForm = this.fb.group({
+      fullName: this.fb.group({
+        firstName: ["", [Validators.required]],
+        lastName: [""]
+      }),
+      phone: []
+    })
+  }
+}
+
+其他常用方法：
+patchValue：设置表单控件的值（可以设置全部，也可以设置其中某一个，其他不受影响）
+setValue：设置表单控件的值 (设置全部，不能排除任何一个)
+valueChanges：当表单控件的值发生变化时被触发的事件
+reset：表单内容置空

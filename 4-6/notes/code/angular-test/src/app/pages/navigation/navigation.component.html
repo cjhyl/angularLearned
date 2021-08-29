@@ -1,0 +1,17 @@
+<div>
+  <a routerLink="/home">首页</a>
+  <!-- <a routerLink="/about" [queryParams]="{ name: '张三' }">关于我们</a> -->
+  <a [routerLink]="['/about', '李四']" >关于我们</a>
+  <!-- <a routerLink="/news">新闻</a> -->
+  <a [routerLink]="[
+    '/news',
+    {
+      outlets: {
+        left: ['company'],
+        right: ['industry']
+      }
+    }
+  ]">新闻</a>
+  <a routerLink="/user/login">登录</a>
+  <a routerLink="/user/register">注册</a>
+</div>

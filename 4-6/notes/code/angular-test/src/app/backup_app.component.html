@@ -1,0 +1,166 @@
+<!-- <style>
+  input.ng-touched.ng-invalid {
+    border: 2px solid red;
+  }
+</style> -->
+
+<div>App works</div>
+<app-layout></app-layout>
+<hr>
+<div>数据绑定</div>
+<div>message:{{message}}</div>
+<div>getInfo:{{getInfo()}}</div>
+<div [innerHTML]="htmlString"></div>
+<div>1===1?{{1===1?'是':'否'}}</div>
+<hr>
+<div>属性绑定</div>
+<img [src]="imgUrl" />
+<div [attr.data-test]="title">自定义data-test属性</div>
+<hr>
+<div>class绑定</div>
+<div [class.active]="true">active true</div>
+<div [class.active]="false">active false</div>
+<div [ngClass]="{active:true,error:true}">active & error</div>
+<div>style绑定</div>
+<div [style.width]="'200px'">width 200px</div>
+<div [ngStyle]="{width:'200px',background:'red'}">width:200px,background:red</div>
+<hr>
+<div>事件绑定</div>
+<button (click)="testClick($event)">testClick</button>
+<hr>
+<div>获取原生DOM对象</div>
+<input type="text" (keyup.enter)="onKeyUp(username)" #username/>
+<button (click)="onClick(btn)" #btn>按钮</button>
+<ul>
+  <li #items>a</li>
+  <li #items>b</li>
+  <li #items>c</li>
+</ul>
+<hr>
+<div>双向数据绑定</div>
+<input type="text" [(ngModel)]="bindusername" />
+<button (click)="bindusernameChange()">更改数据</button>
+<div>bindusername: {{ bindusername }}</div>
+<hr>
+<div>内容投影</div>
+<app-demo>
+  <ng-container class="a">a</ng-container>
+  <div class="b">b</div>
+  <div class="d">d</div>
+</app-demo>
+<hr>
+<div>容错处理</div>
+<!-- 方式一 -->
+<div *ngIf="task.person">{{ task.person.name }}</div>
+<!-- 方式二 -->
+<div>{{ task.person?.name }}</div>
+<!-- js方式 方式二的实质内容可能也是这个 -->
+<div >{{ task.person&&task.person.name }}</div>
+<button (click)="changeTaskObj()">更改为错误数据</button>
+<hr>
+<div>ngIf指令，属于结构指令，所以用*开头</div>
+<div>使用方式一</div>
+<div *ngIf="testNgif.length<1">没有更多数据了</div>
+<div *ngIf="testNgif.length>0">{{testNgif}}</div>
+<div>使用方式二</div>
+<div *ngIf="testNgif.length > 0; then dataList else noData"></div>
+<ng-template #dataList>{{testNgif}}</ng-template>
+<ng-template #noData>没有更多数据了</ng-template>
+<hr>
+<div>hidden指令，属于属性指令，所以用[]包裹</div>
+<div [hidden]="testNgif.length>0">没有更多数据了</div>
+<div [hidden]="testNgif.length<1">{{testNgif}}</div>
+<hr>
+<div>ngFor的使用</div>
+<ul>
+  <li
+    *ngFor="
+      let item of testNgif;
+      let i = index;
+      let isEven = even;
+      let isOdd = odd;
+      let isFirst = first;
+      let isLast = last;
+      trackBy: listid;
+    "
+  >
+  名称：{{item.name}},年龄：{{item.name}},序号{{i}}
+  </li>
+</ul>
+<hr>
+<div>自定义指令</div>
+<div [appHover]="{bgColor:'red'}">测试appHover指令</div>
+<hr>
+<div>管道</div>
+<div>内置管道</div>
+<div>日期格式化date {{date | date: "yyyy-MM-dd"}}</div>
+<div>货币格式化currency {{money | currency: "¥"}}</div>
+<div>转大写uppercase {{title | uppercase}}</div>
+<div>转小写lowercase {{title | lowercase}}</div>
+<div>格式化json数据json {{testNgif | json}}</div>
+<div>自定义管道</div>
+<div>{{testLongStr | summary:20}}</div>
+<hr>
+<div>组件通信|生命周期</div>
+<button (click)="testChange()">更改数据</button>
+<app-person (sendData)="getDataFromChild($event)" [name]="testName" [age]="testAge" [person]="testNgif[0]" *ngIf="!persomRemove">
+  <div #box>Hello Angular</div>
+</app-person>
+<hr>
+<div>服务的作用域</div>
+<app-demo1></app-demo1>
+<hr>
+<div>表单-模板驱动</div>
+<form #f="ngForm" (submit)="onSubmit(f)">
+  <!--ng-container 类似于 vue 的template，不会生成真实dom元素-->
+  <ng-container ngModelGroup="user">
+    <input 
+      #username1="ngModel" 
+      type="text" 
+      name="username" 
+      ngModel 
+      required 
+      minlength="3" 
+      maxlength="6" 
+      placeholder="需3-6位"
+      
+    />
+    <div *ngIf="username1.touched && !username1.valid && username1.errors">
+      <div *ngIf="username1.errors.required">请填写用户名</div>
+      <div *ngIf="username1.errors.minlength">最少{{username1.errors.minlength.requiredLength}}位字符</div>
+    </div>
+  </ng-container>
+  <ng-container ngModelGroup="contact">
+    <input type="text" name="phone" ngModel />
+  </ng-container>
+  <button [disabled]="f.invalid">提交</button>
+</form>
+<hr>
+<div>表单-模型驱动</div>
+<form [formGroup]="contactForm" (submit)="onSubmit2()">
+  <ng-container formGroupName="user">
+    <input type="text" formControlName="username" />
+    <div *ngIf="username2.touched && username2.invalid && username2.errors">
+      <div *ngIf="username2.errors.required">请填写姓名</div>
+      <div *ngIf="username2.errors.minlength">
+        姓名长度不能小于
+        {{ username2.errors.minlength.requiredLength }} 实际填写长度为
+        {{ username2.errors.minlength.actualLength }}
+      </div>
+      <div *ngIf="username2.errors.cannotContainSpace">姓名中不能包含空格</div>
+      <div *ngIf="username2.errors.shouldBeUnique">用户名重复</div>
+      
+    </div>
+    <div *ngIf="username2.pending">正在检测姓名是否重复</div>
+  </ng-container>
+  <input type="text" formControlName="phone" />
+  <button [disabled]="contactForm.invalid">提交</button>
+</form>
+<div>表单-模型驱动：FormArray</div>
+<app-form-array></app-form-array>
+<div>表单-模型驱动：FormBuilder</div>
+<app-form-builder></app-form-builder>
+<div>FormBuilder练习：checkbox</div>
+<app-checkbox></app-checkbox>
+<div>FormBuilder练习：radio</div>
+<app-radio></app-radio>

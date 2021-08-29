@@ -1,0 +1,13 @@
+NgRx 是 Angular 应用中实现全局状态管理的 Redux 架构解决方案。
+
+工作流程：
+组件触发action->reducer->store->selector(处理数据后)->更新数据到组件
+异步流程在触发action后->effects->service->effects->action->后同上
+
+其主要模块有：
+@ngrx/store：全局状态管理模块
+@ngrx/effects：处理副作用
+@ngrx/store-devtools：浏览器调试工具，需要依赖 Redux Devtools Extension
+@ngrx/schematics：命令行工具，快速生成 NgRx 文件
+@ngrx/entity：提高开发者在 Reducer 中操作数据的效率
+@ngrx/router-store：将路由状态同步到全局 Store

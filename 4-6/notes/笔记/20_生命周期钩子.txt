@@ -1,0 +1,26 @@
+﻿挂载阶段：
+挂载阶段的生命周期函数只在挂载阶段执行一次，数据更新时不再执行。
+1. constructor：
+Angular 在实例化组件类时执行, 可以用来接收 Angular 注入的服务实例对象。
+2. ngOnInit：
+需引入OnInit接口，implements OnInit，在首次接收到输入属性值（使用Input装饰器获取的属性）后执行，在此处可以执行请求操作。
+3. ngAfterContentInit：
+需要implements AfterContentInit，当内容投影初始渲染完成后调用。
+4. ngAfterViewInit：
+需要implements AfterViewInit，当组件视图渲染完成后调用。
+执行顺序是从上到下，所以Angular初始化的顺序是实例化组件类->接收属性->渲染投影->渲染视图
+
+更新阶段：
+一、ngOnChanges：需implements OnChanges
+1. 当输入属性值发生变化时执行，初始设置时也会执行一次，顺序优于 ngOnInit
+2. 不论多少输入属性同时变化，钩子函数只会执行一次，变化的值会同时存储在参数中
+3. 参数类型为 SimpleChanges，子属性类型为 SimpleChange
+4. 对于基本数据类型来说, 只要值发生变化就可以被检测到
+5. 对于引用数据类型来说, 可以检测从一个对象变成另一个对象, 但是检测不到同一个对象中属性值的变化，但是不影响组件模板更新数据。
+二、ngDoCheck：主要用于调试，只要输入属性发生变化，不论是基本数据类型还是引用数据类型还是引用数据类型中的属性变化，都会执行。
+三、ngAfterContentChecked：内容投影更新完成后执行。
+四、ngAfterViewChecked：组件视图更新完成后执行。
+
+卸载阶段：
+ngOnDestroy：需要implements OnDestroy
+当组件被销毁之前调用, 用于清理操作。

@@ -1,0 +1,18 @@
+Angular模块即NgModule
+NgModule是angular组织代码结构的一种方式，是专注于某个应用领域的相关功能的集合。
+angular应用至少要有一个根模块，用于启动应用程序。
+NgModule可以从其他模块导入功能，只要目标模块导出了该功能。
+
+
+示例代码：
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+// 模块装饰器
+@NgModule({
+// 导入的其他模块数组
+  imports: [
+    BrowserModule
+  ]
+})
+export class AppModule { }

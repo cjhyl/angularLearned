@@ -1,0 +1,24 @@
+ng new angular-test --minimal --inlineTemplate false
+常用的参数：
+--skipGit=true // 忽略 自动创建git仓库
+--minimal=true
+--skip-install // 忽略 自动安装项目依赖
+--style=css  // 默认的样式模式，可设为less,sass,scss等
+--routing=false// 是否创建路由文件
+--inlineTemplate
+--inlineStyle// 是否行内样式 true的话，组件类和组件样式会合并为一个文件，false则样式为单独文件
+--prefix// 修改组件类名的前缀，默认为app，例如创建一个home组件，默认名为app-home
+
+--minimal：加上改参数，会少创建一些文件，例如单元测试文件，例如html模板文件和样式文件。
+--inlineTemplate：加上后，之前合并到其他文件中的html模板文件又分离出来
+
+安装时有黄字提示我Use '--inline-template' instead of '--inlineTemplate'.应该是版本更新后的变化，应该使用ng new angular-test --minimal --inline-template false
+Would you like to add Angular routing? No
+Which stylesheet format would you like to use?CSS
+
+运行应用：ng serve，后面还可以跟参数：
+--open=true 应用构建完成后在浏览器中运行
+--hmr=true 开启热更新
+hmrWarning=false 禁用热更新警告
+--port 更改应用运行端口 默认4200
+访问应用：localhost:4200

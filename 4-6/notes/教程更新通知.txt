@@ -1,0 +1,12 @@
+2021年7月8日通知：
+1. Part4 模块二 React 数据流方案专题（Redux、MobX） 任务一：Redux 新增 ReduxToolkit 
+2. Part4 模块二 React 数据流方案专题（Redux、MobX） 任务二：MobX 更新为Mobx6 
+3. Part4 模块三 React Hooks、Chakra-UI、组件性能优化、封装组件库 任务七： React组件性能优化
+4.Part7增加了模块七鸿蒙模块内容学习
+
+2021年8月26日通知：
+※※※重要通知※※※
+亲爱的小伙伴们，Part2 模块二 任务二视频已更新
+内容由之前的 webpack4 更新到 webpack5
+时长由 4 小时 8 分更新至 13 小时 3 分！！
+课程资料也已替换完成，学起来

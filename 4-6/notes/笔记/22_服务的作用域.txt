@@ -1,0 +1,48 @@
+服务的作用域
+使用服务可以轻松实现跨模块跨组件共享数据，这取决于服务的作用域。
+
+1. 在根注入器中注册服务，所有模块使用同一个服务实例对象。
+// providedIn的值为'root'，即为根注入器
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class CarListService {
+}
+
+2. 在模块级别注册服务，该模块中的所有组件使用同一个服务实例对象。
+// providedIn的值为一个模块，即为模块级别注入器 此为新语法
+// 在模块中使用providers引入，此为旧语法
+
+import { Injectable } from '@angular/core';
+import { CarModule } from './car.module';
+
+@Injectable({
+  providedIn: CarModule,// 新语法
+})
+
+export class CarListService {
+}
+
+
+import { CarListService } from './car-list.service';
+
+@NgModule({
+  providers: [CarListService],// 旧语法
+})
+export class CarModule {
+}
+
+3. 在组件级别注册服务，该组件及其子组件使用同一个服务实例对象。
+// providedIn的值为一个组件，即为组件级别注入器
+
+import { Component } from '@angular/core';
+import { CarListService } from '../car-list.service.ts'
+
+@Component({
+  selector:    'app-car-list',
+  templateUrl: './car-list.component.html',
+  providers:  [ CarListService ]
+})

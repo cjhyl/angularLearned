@@ -1,0 +1,16 @@
+创建store
+ng g store State --root --module app.module.ts --state-path store --state-interface AppState
+
+创建action
+ng g action store/actions/todo --skip-tests
+? What should be the prefix of the action? n
+? Should we generate success and failure actions? No
+? Do you want to use the create function? Yes
+
+创建reducer
+ng g reducer store/reducers/todo --reducers ../index.ts --skip-tests
+? Should we add success and failure actions to the reducer? No
+? Do you want to use the create function? Yes
+
+创建selector
+ng g selector store/selector/todo --skip-tests

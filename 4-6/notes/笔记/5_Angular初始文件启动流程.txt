@@ -1,0 +1,1 @@
+启动文件main.ts中指定了启动模块app.module.ts，启动模块中指定了启动组件app.component.ts，启动组件中定义了index.html中的调用方式。

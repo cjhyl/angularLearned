@@ -1,0 +1,35 @@
+angular组件由组件类、组件模板、组件样式组成，他们可以在一个文件中，也可以分离为三个不同的文件。
+组件类处理界面逻辑，关联该组件模板和样式。
+组件模板编写HTML结构，通过数据绑定标记关联数据和DOM。
+组件样式处理外观，可以使CSS,LESS,SCSS,Stylus
+
+示例：
+import { Component } from "@angular/core"
+
+// Component：组件类装饰器
+// templateUrl：组件模板链接
+// styleUrls：组件样式链接
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
+})
+export class AppComponent {
+  title = "angular-test"
+}
+
+组件必须属于一个NgModule，模块为组件提供了编译的上下文环境：
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+@NgModule({
+// 包含的组件
+  declarations: [
+    AppComponent
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+同一个组件不许属于多个模块，其他模块要使用，则需要依赖当前模块（前提是当前模块有导出该组件）

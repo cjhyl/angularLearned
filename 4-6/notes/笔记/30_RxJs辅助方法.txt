@@ -1,0 +1,18 @@
+1. range
+range(start, length)，调用方法后返回 observable 对象，被订阅后会发出指定范围的数值。
+
+3. from
+将 Array，Promise, Iterator 转换为 observable 对象。
+
+9 forkJoin
+forkJoin 是 Rx 版本的 Promise.all()，即表示等到所有的 Observable 都完成后，才一次性返回值。
+
+13 fromEvent
+将事件转换为 Observable。
+
+4 interval、timer
+Interval：每隔一段时间发出一个数值，数值递增
+timer：间隔时间过去以后发出数值，行为终止，或间隔时间发出数值后，继续按第二个参数的时间间隔继续发出值
+
+of
+将参数列表作为数据流返回。

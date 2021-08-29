@@ -1,0 +1,29 @@
+创建共享模块： ng g m shared
+// angular generate module
+//  生成路径src/app/shared/shared.module.ts
+
+创建共享组件：ng g c shared/components/Layout
+// angular generate components
+// CREATE src/app/shared/components/layout/layout.component.html (21 bytes)
+// CREATE src/app/shared/components/layout/layout.component.ts (251 bytes)
+// UPDATE src/app/shared/shared.module.ts (287 bytes)
+
+在共享模块中导出共享组件
+@NgModule({
+  exports: [
+    LayoutComponent
+  ]
+})
+
+在根模块中导入共享模块
+@NgModule({
+  imports: [SharedModule],
+})
+
+在根组件中使用 Layout 组件
+@Component({
+  template: `
+    <div>App works</div>
+    <app-layout></app-layout>
+  `,
+})

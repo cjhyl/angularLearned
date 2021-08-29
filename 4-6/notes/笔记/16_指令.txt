@@ -1,0 +1,38 @@
+﻿angular指令分为属性指令和结构指令
+属性指令：修改现有元素的外观或行为，使用 [] 包裹。
+结构指令：增加、删除 DOM 节点以修改布局，使用*作为指令前缀
+
+结构指令ngif指令：
+<div *ngIf="data.length == 0">没有更多数据</div>
+<div *ngIf="data.length > 0; then dataList else noData"></div>
+<ng-template #dataList>课程列表</ng-template>
+<ng-template #noData>没有更多数据</ng-template>
+
+属性指令hidden指令：
+<div [hidden]="data.length == 0">课程列表</div>
+<div [hidden]="data.length > 0">没有更多数据</div>
+
+感觉hidden与ngif的配合没有vue的v-show与v-if配合好，因为v-show和v-if表现形式相似，而hidden和ngif表现形式相反。
+
+结构指令ngFor
+//ngFor自带参数。list为一个数组
+//index序号，even是否偶数，odd奇数，first第一，last最后
+<li
+    *ngFor="
+      let item of list;
+      let i = index;
+      let isEven = even;
+      let isOdd = odd;
+      let isFirst = first;
+      let isLast = last;
+    "
+  >
+  </li>
+
+ngFor排序：
+<li *ngFor="let item of list; trackBy: identify"></li>
+identify(index, item){
+  return item.id; 
+}
+
+

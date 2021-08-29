@@ -1,0 +1,27 @@
+Angular服务用于放置和特定组件无关的，并希望跨组件共享的，数据或逻辑。
+服务出现的目的在于解耦组件类中的代码，让组件类中的代码干净整洁。
+服务是用Injectable装饰器装饰的类。如：
+import { Injectable } from '@angular/core';
+
+@Injectable({})
+export class AppService { }
+绝大多数情况下，服务类都是用来被组件类调用的，组件内new的方式创建服务实例对象的方式，是不被推荐的，例如以下示例：
+import { AppService } from "./AppService"
+
+export class AppComponent {
+// 不被推荐的做法，耦合性太高，例如以后AppService修改了初始化参数的话，这里也得修改
+  let appService = new AppService()
+}
+在组件中需要通过 constructor 构造函数的参数来获取服务的实例对象。
+涉及参数就需要考虑参数的顺序问题，因为在 Angular 应用中会有很多服务，一个组件又不可能会使用到所有服务，如果组件要使用到最后一个服务实例对象，难道要将前面的所有参数都写上吗 ? 这显然不合理。
+解耦参数，在组件中获取服务实例对象要结合 TypeScript 类型，写法如下。
+
+import { AppService } from "./AppService"
+
+export class AppComponent {
+  constructor (
+// private修饰符作用：1. appService作为属性使用而非参数，2. appService只能在组件类中使用，不能在组件模板中使用，如果使用public则可在模板中使用
+  	private appService: AppService
+  ) {}
+}
+这样，Angular 会根据你指定的服务的类型来传递你想要使用的服务实例对象，这样就解决了参数的顺序问题。

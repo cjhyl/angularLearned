@@ -1,0 +1,18 @@
+在数据嵌套比较深的时候，如果途中某个节点可能不存在，就需要做数据容错处理，例如这样的数据：
+// app.component.ts
+export class AppComponent {
+    task = {
+        person: {
+            name: '张三'
+        }
+    }
+}
+
+处理方式：
+ngif相当于vue的v-if
+<!-- 方式一 -->
+<span *ngIf="task.person">{{ task.person.name }}</span>
+<!-- 方式二 -->
+<span>{{ task.person?.name }}</span>
+<!-- js方式 方式二的实质内容可能也是这个 -->
+<div >{{ task.person&&task.person.name }}</div>

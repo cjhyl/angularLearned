@@ -1,0 +1,46 @@
+一、概述
+依赖注入 ( Dependency Injection ) 简称DI，是面向对象编程中的一种设计原则，用来减少代码之间的耦合度。
+
+class MailService {
+  constructor(APIKEY) {}
+}
+
+class EmailSender {
+  mailService: MailService
+  constructor(apiKey: string) {
+    this.mailService = new MailService(apiKey)
+  }
+
+  sendMail(mail) {
+    this.mailService.sendMail(mail)
+  }
+}
+
+const emailSender = new EmailSender("APIKEY1234567890")
+emailSender.sendMail(mail)
+EmailSender 类运行时要使用 MailService 类，EmailSender 类依赖 MailService 类，MailService 类是 EmailSender 类的依赖项。
+
+以上写法的耦合度太高，代码并不健壮。如果 MailService 类改变了参数的传递方式，在 EmailSender 类中的写法也要跟着改变。
+
+class EmailSender {
+  mailService: MailService
+  constructor(mailService: MailService) {
+    this.mailService = mailService;
+  }
+}
+const mailService = new MailService("APIKEY1234567890")
+const emailSender = new EmailSender(mailService)
+在实例化 EmailSender 类时将它的依赖项通过 constructor 构造函数参数的形式注入到类的内部，这种写法就是依赖注入。
+
+通过依赖注入降了代码之间的耦合度，增加了代码的可维护性。MailService 类中代码的更改再也不会影响 EmailSender 类。
+
+
+二、DI框架
+Angular的依赖注入框架，它隐藏(封装)了依赖注入的过程，让开发者用很简单的代码实现很复杂的依赖注入功能。
+Angular的DI 框架中有四个核心概念：
+1. Dependency：组件要依赖的实例对象，服务实例对象
+2. Token：获取服务实例对象的标识
+3. Injector：注入器，负责创建维护服务类的实例对象并向组件中注入服务实例对象。
+4. Provider：配置注入器的对象，指定创建服务实例对象的服务类和获取实例对象的标识。
+
+将实例对象和外部的引用建立了松耦合关系，外部通过标识获取实例对象，只要标识保持不变，内部代码怎么变都不会影响到外部。

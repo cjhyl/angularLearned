@@ -1,0 +1,11 @@
+Effect使用示例：
+需求：在页面中新增一个按钮，点击按钮后延迟一秒让数值增加。
+副作用：延迟执行
+
+1. 在组件模板中新增一个用于异步数值增加的按钮，按钮被点击后执行 increment_async 方法
+2. 在组件类中新增 increment_async 方法，并在方法中触发执行异步操作的 Action
+3. 在 Action 文件中新增执行异步操作的 Action
+4. 创建 Effect，接收 Action 并执行副作用，继续触发 Action
+ng g effect store/effects/counter --root --module app.module.ts --skip-tests
+? Should we wire up success and failure actions? No 是否接收成功或失败action
+? Do you want to use the create function? Yes 是否使用辅助函数

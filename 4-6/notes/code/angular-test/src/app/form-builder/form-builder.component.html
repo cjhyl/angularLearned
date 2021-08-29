@@ -1,0 +1,10 @@
+<form [formGroup]="contactForm" (submit)="onSubmit()">
+  <div formGroupName="fullName">
+    <input type="text" formControlName="firstName" />
+    <input type="text" formControlName="lastName" />
+  </div>
+  <button (click)="onPatchValue()">patchValue</button>
+  <button (click)="onSetValue()">setValue</button>
+  <button (click)="onReset()">reset</button>
+  <button>提交</button>
+</form>

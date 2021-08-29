@@ -1,0 +1,6 @@
+事件绑定格式是使用小括号，没有on。
+<button (click)="onSave($event)">按钮</button>
+<!-- .enter修饰符 当按下回车键抬起的时候执行函数 -->
+<input type="text" (keyup.enter)="onKeyUp()"/>
+
+绑定的函数内的this默认指向组件类的实例对象

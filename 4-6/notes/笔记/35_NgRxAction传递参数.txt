@@ -1,0 +1,13 @@
+1. 在组件中使用 dispatch 触发 Action 时传递参数，参数最终会被放置在 Action 对象中。
+this.store.dispatch(increment({ count: 5 }))
+
+2. 在创建 Action Creator 函数时，获取参数并指定参数类型。
+import { createAction, props } from "@ngrx/store"
+export const increment = createAction("increment", props<{ count: number }>())
+export declare function props<P extends object>(): Props<P>;
+
+3. 在 Reducer 中通过 Action 对象获取参数。
+export const reducer = createReducer(
+  initialState,
+  on(increment, (state, action) => ({ count: state.count + action.count }))
+)

@@ -1,0 +1,10 @@
+内置管道：
+date 日期格式化
+currency 货币格式化
+uppercase 转大写
+lowercase 转小写
+json 格式化json 数据
+
+自定义管道创建指令：ng g p 路径及名称
+//p: pipe管道
+ng g p pipes/summary

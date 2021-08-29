@@ -1,0 +1,39 @@
+获取原生DOM对象，需要使用模板变量#
+
+在组件模板中获取
+<input type="text" (keyup.enter)="onKeyUp(username.value)" #username/>
+
+
+在组件类中获取
+使用 ViewChild 装饰器获取一个元素
+
+<p #paragraph>home works!</p>
+import { AfterViewInit, ElementRef, ViewChild } from "@angular/core"
+
+export class HomeComponent implements AfterViewInit {
+  @ViewChild("paragraph") paragraph: ElementRef<HTMLParagraphElement> | undefined
+  ngAfterViewInit() {
+    console.log(this.paragraph?.nativeElement)
+  }
+}
+
+使用 ViewChildren 获取一组元素
+
+<ul>
+  <li #items>a</li>
+  <li #items>b</li>
+  <li #items>c</li>
+</ul>
+import { AfterViewInit, QueryList, ViewChildren } from "@angular/core"
+
+@Component({
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styles: []
+})
+export class HomeComponent implements AfterViewInit {
+  @ViewChildren("items") items: QueryList<HTMLLIElement> | undefined
+  ngAfterViewInit() {
+    console.log(this.items?.toArray())
+  }
+}

@@ -1,0 +1,11 @@
+相当于vue的slot插槽，react的children。
+插槽标签示例：
+<ng-content select=".heading"></ng-content>
+如果只有一个插槽，则不需要select进行匹配。
+
+angelar创建组件的指令：ng g c demo
+
+使用了select，则只会显示匹配的内容。匹配不上的内容不会显示。
+不使用select，则所有子内容都会显示。
+
+ng-content在浏览器中会被匹配的dom元素，如果不想要这个额外的dom元素，可以使用ng-container替代。这样，自会生成其内部的内容，不会产生外框的这个元素。

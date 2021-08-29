@@ -1,0 +1,7 @@
+属性绑定分为两种情况，绑定 DOM 对象属性和绑定HTML标记属性。
+
+使用 [属性名称] 为元素绑定 DOM 对象属性。
+<img [src]="imgUrl"/>
+使用 [attr.属性名称] 为元素绑定 HTML 标记属性
+<td [attr.colspan]="colSpan"></td> 
+自定义属性属于第二种情况

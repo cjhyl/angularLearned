@@ -1,0 +1,142 @@
+HttpClientModule:
+该模块用于发送 Http 请求，用于发送请求的方法都返回 Observable 对象。
+
+常用的方法：
+this.http.get(url [, options]);
+this.http.post(url, data [, options]);
+this.http.delete(url [, options]);
+this.http.put(url, data [, options]);
+
+请求参数：
+1. HttpParams 类
+export declare class HttpParams {
+    constructor(options?: HttpParamsOptions);
+    has(param: string): boolean;
+    get(param: string): string | null;
+    getAll(param: string): string[] | null;
+    keys(): string[];
+    append(param: string, value: string): HttpParams;
+    set(param: string, value: string): HttpParams;
+    delete(param: string, value?: string): HttpParams;
+    toString(): string;
+}
+2. HttpParamsOptions 接口
+declare interface HttpParamsOptions {
+// 字符形式参数
+    fromString?: string;
+// 对象形式参数
+    fromObject?: {
+        [param: string]: string | ReadonlyArray<string>;
+    };
+// 参数字符格式化
+    encoder?: HttpParameterCodec;
+}
+3. 使用示例
+import { HttpParams } from '@angular/common/http';
+
+let params = new HttpParams({ fromObject: {name: "zhangsan", age: "20"}})
+params = params.append("sex", "male")
+let params = new HttpParams({ fromString: "name=zhangsan&age=20"})
+
+
+请求头：
+export declare class HttpHeaders {
+    constructor(headers?: string | {
+        [name: string]: string | string[];
+    });
+    has(name: string): boolean;
+    get(name: string): string | null;
+    keys(): string[];
+    getAll(name: string): string[] | null;
+    append(name: string, value: string | string[]): HttpHeaders;
+    set(name: string, value: string | string[]): HttpHeaders;
+    delete(name: string, value?: string | string[]): HttpHeaders;
+}
+
+
+响应内容
+declare type HttpObserve = 'body' | 'response';
+// response 读取完整响应体
+// body 读取服务器端返回的数据
+
+
+拦截器
+Angular中用于全局捕获和修改 请求和相应的方式，可用于统一加载token，统一的错误提示之类的功能。
+拦截器只拦截HttpClientModule模块的请求
+创建拦截器的指令：ng g interceptor <name>
+
+1 请求拦截
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  constructor() {}
+	// 拦截方法
+  intercept(
+  	// unknown 指定请求体 (body) 的类型
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+     // unknown 指定响应内容 (body) 的类型
+  ): Observable<HttpEvent<unknown>> {
+    // 克隆并修改请求头
+    const req = request.clone({
+      setHeaders: {
+        Authorization: "Bearer xxxxxxx"
+      }
+    })
+    // 通过回调函数将修改后的请求头回传给应用
+    return next.handle(req)
+  }
+}
+2 响应拦截
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  constructor() {}
+	// 拦截方法
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<any> {
+    return next.handle(request).pipe(
+      retry(2),
+      catchError((error: HttpErrorResponse) => throwError(error))
+    )
+  }
+}
+3 拦截器注入
+import { AuthInterceptor } from "./auth.interceptor"
+import { HTTP_INTERCEPTORS } from "@angular/common/http"
+
+@NgModule({
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
+})
+
+
+proxy代理：
+1. 在项目的根目录下创建 proxy.conf.json 文件并加入如下代码
+{
+ 	"/api/*": {
+    "target": "http://localhost:3070",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
+/api/*：在应用中发出的以 /api 开头的请求走此代理
+target：服务器端 URL
+secure：如果服务器端 URL 的协议是 https，此项需要为 true
+changeOrigin：如果服务器端不是 localhost， 此项需要为 true
+
+2. 指定 proxy 配置文件 (方式一)
+"scripts": {
+  "start": "ng serve --proxy-config proxy.conf.json",
+}
+3. 指定 proxy 配置文件 (方式二)
+
+"serve": {
+  "options": {
+    "proxyConfig": "proxy.conf.json"
+  },

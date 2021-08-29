@@ -1,0 +1,8 @@
+class 属性
+<button class="btn btn-primary" [class.active]="isActive">按钮</button>
+<div [ngClass]="{'active': true, 'error': true}"></div>
+添加的class属性不会影响原有的class属性
+
+style 属性
+<button [style.backgroundColor]="isActive ? 'blue': 'red'">按钮</button>
+<button [ngStyle]="{'backgroundColor': 'red'}">按钮</button>

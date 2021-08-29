@@ -1,0 +1,89 @@
+快速上手：
+1. 引入依赖模块 FormsModule
+
+import { FormsModule } from "@angular/forms"
+
+@NgModule({
+  imports: [FormsModule],
+})
+export class AppModule {}
+
+2. 将 DOM 表单转换为 ngForm
+//f为自定义变量，代表form表单dom对象。
+//ngForm为固定值，代表把原生dom的form表单对象转换为angular表单对象。
+//onSubmit中传入的参数f正是转换后的angular表单对象。
+<form #f="ngForm" (submit)="onSubmit(f)"></form>
+
+3. 声明表单字段为 ngModel
+//直接放入一个表单项，是不能被辨识的，需使用ngModel属性声明
+<form #f="ngForm" (submit)="onSubmit(f)">
+  <input type="text" name="username" ngModel />
+  <button>提交</button>
+</form>
+
+4. 获取表单字段值
+
+import { NgForm } from "@angular/forms"
+
+export class AppComponent {
+  onSubmit(form: NgForm) {
+    console.log(form.value)
+  }
+}
+
+5. 表单分组
+
+<form #f="ngForm" (submit)="onSubmit(f)">
+  <div ngModelGroup="user">
+    <input type="text" name="username" ngModel />
+  </div>
+  <div ngModelGroup="contact">
+    <input type="text" name="phone" ngModel />
+  </div>
+  <button>提交</button>
+</form>
+
+
+表单验证
+1. 常用验证字段：
+required 必填字段
+minlength 字段最小长度
+maxlength 字段最大长度
+pattern 验证正则 例如：pattern="\d" 匹配一个数值
+其他验证规则字段请查文档
+
+2. 使用：
+<form #f="ngForm" (submit)="onSubmit(f)">
+  <input type="text" name="username" ngModel required pattern="\d" />
+  <button>提交</button>
+</form>
+
+3. 验证结果:
+export class AppComponent {
+  onSubmit(form: NgForm) {
+    // 查看表单整体是否验证通过
+    console.log(form.valid)
+  }
+}
+<!-- 表单整体未通过验证时禁用提交表单 -->
+<button type="submit" [disabled]="f.invalid">提交</button>
+
+4. 在组件模板中显示表单项未通过时的错误信息。
+// #username="ngModel" 给表单项指定angular对象，且对象类型为ngModel
+// username.touched表单项被操作过
+// username.valid验证通过
+// username.errors验证未通过时，表单错误信息对象
+<form #f="ngForm" (submit)="onSubmit(f)">
+  <input #username="ngModel" />
+  <div *ngIf="username.touched && !username.valid && username.errors">
+    <div *ngIf="username.errors.required">请填写用户名</div>
+    <div *ngIf="username.errors.pattern">不符合正则规则</div>
+  </div>
+</form>
+
+5. 指定表单项未通过验证时的样式。
+//.ng-touched 操作过的样式
+//.ng-invalid 未通过验证的样式
+input.ng-touched.ng-invalid {
+  border: 2px solid red;
+}
